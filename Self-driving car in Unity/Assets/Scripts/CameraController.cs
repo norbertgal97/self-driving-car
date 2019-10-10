@@ -1,20 +1,50 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public Transform target;
-    public Vector3 offset;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField]
+    private float speed = 20f;
+    private float mouseXInput;
+    private float mouseYInput;
+    private float horizontalInput;
+    private float verticalInput;
+    private float horizontalRotation;
+    private float verticalRotation;
+    private float yPosition;
+
+    private void Awake()
     {
-        offset = transform.position - target.position;
+        yPosition = transform.position.y;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        transform.position = target.position + offset;
+        GetInput();
+        Rotate();
+        Translate();
+    }
+
+    private void GetInput()
+    {
+        mouseXInput = Input.GetAxis("Mouse X");
+        mouseYInput = Input.GetAxis("Mouse Y");
+
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+    }
+
+    private void Rotate()
+    {
+        horizontalRotation += speed * mouseXInput * Time.deltaTime;
+        verticalRotation -= speed * mouseYInput * Time.deltaTime;
+        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+
+        transform.eulerAngles = new Vector3(verticalRotation, horizontalRotation, 0f);
+    }
+
+    private void Translate()
+    {
+        transform.Translate(horizontalInput * speed * Time.deltaTime, 0f, verticalInput * speed * Time.deltaTime);
+        transform.position = new Vector3(transform.position.x, yPosition, transform.position.z);
     }
 }

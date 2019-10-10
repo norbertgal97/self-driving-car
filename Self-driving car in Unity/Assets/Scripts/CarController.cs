@@ -1,37 +1,52 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    public WheelCollider frontLeftWheelCollider;
-    public WheelCollider frontRightWheelCollider;
-    public WheelCollider rearLeftWheelCollider;
-    public WheelCollider rearRightWheelCollider;
+    public float maxSteeringAngle = 38f;
+    public float motorTorque = 200f;
+    public float brakeTorque = 1000f;
 
-    public Transform frontLeftTransform;
-    public Transform frontRightTransform;
-    public Transform rearLeftTransform;
-    public Transform rearRightTransform;
+    public Node Destination { get; set; }
+    public Node Source { get; set; }
 
-    public float maxSteeringAngle = 31f;
-    public float motorTorque = 250f;     
-    public float brakeTorque = 30000;
+    public bool isBraking;
 
+    [SerializeField]
+    private WheelCollider frontLeftWheelCollider;
+    [SerializeField]
+    private WheelCollider frontRightWheelCollider;
+    [SerializeField]
+    private WheelCollider rearLeftWheelCollider;
+    [SerializeField]
+    private WheelCollider rearRightWheelCollider;
+
+    [SerializeField]
+    private Transform frontLeftTransform;
+    [SerializeField]
+    private Transform frontRightTransform;
+    [SerializeField]
+    private Transform rearLeftTransform;
+    [SerializeField]
+    private Transform rearRightTransform;
+
+    private Transform sensor;
+    private List<Node> shortestPath;
     private Rigidbody rigidB;
-    private float verticalInput;
-    private float horizontalInput;
-    [SerializeField]
-    private float currentSteeringAngle;
-    [SerializeField]
     private float velocity;
+    private int currentIndex = 0;
+    private float currentSteeringAngle;
 
-    void Start()
+    private void Start()
     {
-        rigidB = GetComponent<Rigidbody>();
+        rigidB = GetComponent<Rigidbody>();  
+        sensor = transform.Find("Distance Sensor");
+        shortestPath = Dijkstra.Instance.CalculateShortestPath(Graph.Instance, Source, Destination);
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        GetInput();
         Steer();
         Accelerate();
         Brake();
@@ -40,12 +55,8 @@ public class CarController : MonoBehaviour
         UpdateWheelTransform(frontRightWheelCollider, frontRightTransform);
         UpdateWheelTransform(rearLeftWheelCollider, rearLeftTransform);
         UpdateWheelTransform(rearRightWheelCollider, rearRightTransform);
-    }
 
-    private void GetInput()
-    {
-        verticalInput = Input.GetAxis("Vertical");
-        horizontalInput = Input.GetAxis("Horizontal");
+        Sensor();
     }
 
     private void UpdateWheelTransform(WheelCollider wheelCollider, Transform transform)
@@ -57,7 +68,7 @@ public class CarController : MonoBehaviour
 
     private void Brake()
     {
-        if (Input.GetAxis("Jump") == 1)
+        if (Input.GetAxis("Jump") == 1 || isBraking)
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
@@ -69,7 +80,7 @@ public class CarController : MonoBehaviour
             rearLeftWheelCollider.brakeTorque = brakeTorque;
             rearRightWheelCollider.brakeTorque = brakeTorque;
 
-            rigidB.drag = 0.2f;
+            rigidB.drag = 0.3f;
         }
     }
 
@@ -78,7 +89,7 @@ public class CarController : MonoBehaviour
         velocity = rigidB.velocity.magnitude;
         rigidB.drag = 0.0f;
 
-        if (velocity > 14f)
+        if (velocity > 5f)
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
@@ -92,17 +103,30 @@ public class CarController : MonoBehaviour
             rearLeftWheelCollider.brakeTorque = 0;
             rearRightWheelCollider.brakeTorque = 0;
 
-            frontLeftWheelCollider.motorTorque = motorTorque * verticalInput;
-            frontRightWheelCollider.motorTorque = motorTorque * verticalInput;
-            rearRightWheelCollider.motorTorque = motorTorque * verticalInput;
-            rearLeftWheelCollider.motorTorque = motorTorque * verticalInput;
+            frontLeftWheelCollider.motorTorque = motorTorque;
+            frontRightWheelCollider.motorTorque = motorTorque;
+            rearRightWheelCollider.motorTorque = motorTorque;
+            rearLeftWheelCollider.motorTorque = motorTorque;
         }
     }
 
     private void Steer()
     {
-        currentSteeringAngle = maxSteeringAngle * horizontalInput;
+        if (shortestPath[currentIndex].transform.position != Destination.transform.position && Vector3.Distance(transform.position, shortestPath[currentIndex].transform.position) < 2f)
+        {
+            currentIndex++;
+        }
+
+        Vector3 localVector = transform.InverseTransformPoint(shortestPath[currentIndex].transform.position);
+        localVector = localVector.normalized;
+
+        currentSteeringAngle = maxSteeringAngle * localVector.x;
         frontLeftWheelCollider.steerAngle = currentSteeringAngle;
         frontRightWheelCollider.steerAngle = currentSteeringAngle;
+    }
+
+    private void Sensor()
+    {
+        sensor.localRotation = Quaternion.Euler(new Vector3(0f, currentSteeringAngle, 0f));
     }
 }

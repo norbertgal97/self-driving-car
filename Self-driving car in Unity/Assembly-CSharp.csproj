@@ -64,6 +64,12 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\CarController.cs" />
+    <Compile Include="Assets\Scripts\Destination.cs" />
+    <Compile Include="Assets\Scripts\Dijkstra.cs" />
+    <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Graph.cs" />
+    <Compile Include="Assets\Scripts\Node.cs" />
+    <None Include="Assets\laxer tree pkg\README.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/dev/Unity/Szakdoga/Self-driving car in Unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

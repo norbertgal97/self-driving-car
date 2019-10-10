@@ -1397,9 +1397,10 @@ GameObject:
   - component: {fileID: 8862928381349008113}
   - component: {fileID: 8862928381349008119}
   - component: {fileID: 3513501222629127129}
+  - component: {fileID: 5815184788158640113}
   m_Layer: 0
   m_Name: Classic_16
-  m_TagString: Untagged
+  m_TagString: Car
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1489,7 +1490,27 @@ MonoBehaviour:
   rearRightTransform: {fileID: 0}
   maxSteeringAngle: 33
   motorTorque: 50
+  brakeTorque: 30000
   currentSteeringAngle: 0
+  velocity: 0
+  destination: {fileID: 0}
+  source: {fileID: 0}
+  currentIndex: 0
+  isBraking: 0
+  path: {fileID: 0}
+  shortestPath: []
+--- !u!114 &5815184788158640113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8862928381349008112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071ca7eb555f17f4a999975b95e46a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8862928381349008114
 GameObject:
   m_ObjectHideFlags: 0
