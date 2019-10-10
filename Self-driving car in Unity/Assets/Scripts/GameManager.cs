@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     private GameObject carPrefab;
     [SerializeField]
     private float spawnTime = 1f;
+    [SerializeField]
+    private int carCounter = 0;
+    [SerializeField]
+    private int maxCarsOnScreen = 10;
 
     private float currentSpawnTime = 0f;
 
@@ -33,7 +37,7 @@ public class GameManager : MonoBehaviour
     {
         currentSpawnTime += Time.deltaTime;
 
-        if (currentSpawnTime > spawnTime)
+        if (currentSpawnTime > spawnTime && carCounter < maxCarsOnScreen)
         {
             SpawnCar();
             currentSpawnTime = 0f;
@@ -52,6 +56,7 @@ public class GameManager : MonoBehaviour
 
         carController.Source = randomSource;
         carController.Destination = randomDestination;
+        carController.OnDestroy.AddListener(CarDestroyed);
 
         switch (randomSource.gameObject.tag)
         {
@@ -70,6 +75,12 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+        carCounter++;
         car.SetActive(true);
+    }
+
+    public void CarDestroyed()
+    {
+        carCounter--;
     }
 }

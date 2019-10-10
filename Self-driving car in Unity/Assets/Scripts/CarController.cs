@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CarController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class CarController : MonoBehaviour
     public Node Source { get; set; }
 
     public bool isBraking;
+    public UnityEvent OnDestroy;
 
     [SerializeField]
     private WheelCollider frontLeftWheelCollider;
@@ -128,5 +130,12 @@ public class CarController : MonoBehaviour
     private void Sensor()
     {
         sensor.localRotation = Quaternion.Euler(new Vector3(0f, currentSteeringAngle, 0f));
+    }
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
+        OnDestroy.Invoke();
+        OnDestroy.RemoveAllListeners();
     }
 }
