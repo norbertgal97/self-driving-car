@@ -1044,6 +1044,11 @@ MonoBehaviour:
   motorTorque: 200
   brakeTorque: 1000
   isBraking: 0
+  OnDestroy:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   frontLeftWheelCollider: {fileID: 2116838704427480794}
   frontRightWheelCollider: {fileID: 2116838704298158088}
   rearLeftWheelCollider: {fileID: 2116838704513804816}
@@ -1052,6 +1057,7 @@ MonoBehaviour:
   frontRightTransform: {fileID: 2116838705761742189}
   rearLeftTransform: {fileID: 2116838704400196825}
   rearRightTransform: {fileID: 2116838704225056536}
+  maxVelocity: 8.33
 --- !u!1 &2116838705056311111
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,6 +2088,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2116838705341759457}
   - component: {fileID: 2116838705341759487}
+  - component: {fileID: 7766555855360248713}
   m_Layer: 0
   m_Name: Distance Sensor
   m_TagString: Untagged
@@ -2117,6 +2124,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 2534964839176971238, guid: 0c276676e841d5645b5d109b018c7526, type: 3}
+--- !u!114 &7766555855360248713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2116838705341759458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cafc132e8f3fa624b90a61826c162697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  car: {fileID: 2116838705056311109}
 --- !u!1 &2116838705350311730
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private int maxCarsOnScreen = 10;
 
     private float currentSpawnTime = 0f;
+    private Object previousSource;
 
     private void Awake()
     {
@@ -51,6 +52,11 @@ public class GameManager : MonoBehaviour
         Node randomSource = sources[Random.Range(0, sources.Count - 1)];
         Node randomDestination = destinations[Random.Range(0, destinations.Count - 1)];
 
+        if (randomSource.Equals(previousSource))
+        {
+            randomSource = sources[Random.Range(0, sources.Count - 1)];
+        }
+
         GameObject car = Instantiate(carPrefab, randomSource.transform.position, Quaternion.identity);
         CarController carController = car.GetComponent<CarController>();
 
@@ -76,6 +82,7 @@ public class GameManager : MonoBehaviour
         }
 
         carCounter++;
+        previousSource = randomSource;
         car.SetActive(true);
     }
 

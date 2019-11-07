@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\CarController.cs" />
     <Compile Include="Assets\Scripts\Destination.cs" />
     <Compile Include="Assets\Scripts\Dijkstra.cs" />
+    <Compile Include="Assets\Scripts\DistanceSensor.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Graph.cs" />
     <Compile Include="Assets\Scripts\Node.cs" />

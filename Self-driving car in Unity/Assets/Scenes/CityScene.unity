@@ -35135,7 +35135,7 @@ MonoBehaviour:
     type: 3}
   spawnTime: 2
   carCounter: 0
-  maxCarsOnScreen: 10
+  maxCarsOnScreen: 2
 --- !u!4 &1530260662
 Transform:
   m_ObjectHideFlags: 0

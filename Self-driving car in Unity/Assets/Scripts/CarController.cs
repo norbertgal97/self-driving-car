@@ -36,7 +36,10 @@ public class CarController : MonoBehaviour
     private Transform sensor;
     private List<Node> shortestPath;
     private Rigidbody rigidB;
+
+    [SerializeField]
     private float velocity;
+    public float maxVelocity = 8.33f;
     private int currentIndex = 0;
     private float currentSteeringAngle;
 
@@ -82,7 +85,7 @@ public class CarController : MonoBehaviour
             rearLeftWheelCollider.brakeTorque = brakeTorque;
             rearRightWheelCollider.brakeTorque = brakeTorque;
 
-            rigidB.drag = 0.3f;
+            rigidB.drag = 0.4f;
         }
     }
 
@@ -91,7 +94,7 @@ public class CarController : MonoBehaviour
         velocity = rigidB.velocity.magnitude;
         rigidB.drag = 0.0f;
 
-        if (velocity > 5f)
+        if (velocity > maxVelocity)
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
