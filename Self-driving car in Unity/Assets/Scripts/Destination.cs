@@ -6,9 +6,16 @@ public class Destination : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Car")
+        switch (other.tag)
         {
-            other.GetComponent<CarController>().Destroy();
+            case "Car":
+                other.GetComponent<CarController>().Destroy();
+                break;
+            case "Pedestrian":
+                other.GetComponent<PedestrianController>().Destroy();
+                break;
+            default:
+                break;
         }
     }
 }

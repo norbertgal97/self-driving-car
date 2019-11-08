@@ -13,13 +13,22 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject carPrefab;
     [SerializeField]
+    private GameObject pedestrianPrefab;
+    [SerializeField]
     private float spawnTime = 1f;
     [SerializeField]
     private int carCounter = 0;
     [SerializeField]
+    private int pedestrianCounter = 0;
+    [SerializeField]
     private int maxCarsOnScreen = 10;
+    [SerializeField]
+    private List<Transform> pedestrianSources;
+    [SerializeField]
+    private int maxPedestriansOnScreen = 10;
 
     private float currentSpawnTime = 0f;
+    private float currentPedestrianSpawnTime = 0f;
     private Object previousSource;
 
     private void Awake()
@@ -37,11 +46,18 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         currentSpawnTime += Time.deltaTime;
+        currentPedestrianSpawnTime += Time.deltaTime;
 
         if (currentSpawnTime > spawnTime && carCounter < maxCarsOnScreen)
         {
             SpawnCar();
             currentSpawnTime = 0f;
+        }
+
+        if (currentPedestrianSpawnTime > spawnTime && pedestrianCounter < maxPedestriansOnScreen)
+        {
+            SpawnPedestrian();
+            currentPedestrianSpawnTime = 0f;
         }
     }
 
@@ -49,8 +65,8 @@ public class GameManager : MonoBehaviour
     {
         carPrefab.SetActive(false);
 
-        Node randomSource = sources[Random.Range(0, sources.Count - 1)];
-        Node randomDestination = destinations[Random.Range(0, destinations.Count - 1)];
+        Node randomSource = sources[Random.Range(0, sources.Count)];
+        Node randomDestination = destinations[Random.Range(0, destinations.Count)];
 
         if (randomSource.Equals(previousSource))
         {
@@ -86,8 +102,42 @@ public class GameManager : MonoBehaviour
         car.SetActive(true);
     }
 
+    private void SpawnPedestrian()
+    {
+        pedestrianPrefab.SetActive(false);
+
+        Transform randomSource = pedestrianSources[Random.Range(0, pedestrianSources.Count)];
+
+        GameObject pedestrian = Instantiate(pedestrianPrefab, randomSource.position, Quaternion.identity);
+
+        PedestrianController pedestrianController = pedestrian.GetComponent<PedestrianController>();
+        pedestrianController.OnDestroy.AddListener(PedestrianDestroyed);
+
+        pedestrian.transform.position = new Vector3(randomSource.transform.position.x, 1.1f, randomSource.transform.position.z);
+
+        switch (randomSource.gameObject.tag)
+        {          
+            case "Source West":
+                pedestrian.transform.Rotate(0f, 90f, 0f);
+                break;
+            case "Source East":
+                pedestrian.transform.Rotate(0f, -90f, 0f);
+                break;
+            default:
+                break;
+        }
+
+        pedestrianCounter++;
+        pedestrian.SetActive(true);
+    }
+
     public void CarDestroyed()
     {
         carCounter--;
+    }
+
+    public void PedestrianDestroyed()
+    {
+        pedestrianCounter--;
     }
 }

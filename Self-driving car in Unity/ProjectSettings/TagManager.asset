@@ -9,6 +9,7 @@ TagManager:
   - Source East
   - Source North
   - Car
+  - Pedestrian
   layers:
   - Default
   - TransparentFX
