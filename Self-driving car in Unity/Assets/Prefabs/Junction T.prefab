@@ -105,7 +105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a3543f95d09ec4baf755888dc99229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neighbours:
+  ID: 0
+  shortestPath: []
+  distanceFromSource: 3.4028235e+38
+  neighbours:
   - {fileID: 4842064504212169963}
 --- !u!1 &1897985275056401188
 GameObject:
@@ -397,7 +400,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a3543f95d09ec4baf755888dc99229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neighbours:
+  ID: 0
+  shortestPath: []
+  distanceFromSource: 3.4028235e+38
+  neighbours:
   - {fileID: 3078074824307539858}
 --- !u!1 &3199391302801988394
 GameObject:
@@ -874,7 +880,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a3543f95d09ec4baf755888dc99229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neighbours: []
+  ID: 0
+  shortestPath: []
+  distanceFromSource: 3.4028235e+38
+  neighbours:
+  - {fileID: 0}
 --- !u!1 &5107757712811215478
 GameObject:
   m_ObjectHideFlags: 0
@@ -980,9 +990,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a3543f95d09ec4baf755888dc99229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neighbours:
-  - {fileID: 5445029789477198295}
+  ID: 0
+  shortestPath: []
+  distanceFromSource: 3.4028235e+38
+  neighbours:
   - {fileID: 1871850372361104011}
+  - {fileID: 5445029789477198295}
 --- !u!1 &5211269761028767957
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,7 +1101,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a3543f95d09ec4baf755888dc99229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neighbours:
+  ID: 0
+  shortestPath: []
+  distanceFromSource: 3.4028235e+38
+  neighbours:
   - {fileID: 362324020324973250}
   - {fileID: 5445029789477198295}
 --- !u!1 &5366071438529329490
@@ -1730,7 +1746,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a3543f95d09ec4baf755888dc99229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neighbours: []
+  ID: 0
+  shortestPath: []
+  distanceFromSource: 3.4028235e+38
+  neighbours:
+  - {fileID: 0}
 --- !u!1 &7518479987137665514
 GameObject:
   m_ObjectHideFlags: 0
@@ -1875,7 +1895,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a3543f95d09ec4baf755888dc99229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neighbours: []
+  ID: 0
+  shortestPath: []
+  distanceFromSource: 3.4028235e+38
+  neighbours: []
 --- !u!1 &8768177251133489667
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,9 +2004,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a3543f95d09ec4baf755888dc99229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neighbours:
-  - {fileID: 362324020324973250}
+  ID: 0
+  shortestPath: []
+  distanceFromSource: 3.4028235e+38
+  neighbours:
   - {fileID: 1871850372361104011}
+  - {fileID: 362324020324973250}
 --- !u!1 &8835018310932614565
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,5 +2115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99a3543f95d09ec4baf755888dc99229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _neighbours:
+  ID: 0
+  shortestPath: []
+  distanceFromSource: 3.4028235e+38
+  neighbours:
   - {fileID: 1762366284663138467}

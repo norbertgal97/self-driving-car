@@ -1,19 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CarController : MonoBehaviour
 {
-    public float maxSteeringAngle = 38f;
-    public float motorTorque = 200f;
-    public float brakeTorque = 1000f;
+    public float speedlimit
+    {
+        get
+        {
+            return _speedlimit;
+        }
 
-    public Node Destination { get; set; }
-    public Node Source { get; set; }
+        set
+        {
+            if (value > maxVelocity)
+            {
+                _speedlimit = maxVelocity;
+            }
+            else
+            {
+                _speedlimit = value;
+            }
+        }
+    }
 
-    public bool isBraking;
+    public float maxVelocity = 4.33f;
     public UnityEvent OnDestroy;
+    public Node destination = null;
+    public Node source = null;
+    public bool isDecelerating = false;
+    public bool isParking = false;
+    public bool isBraking = false;
+
+    [SerializeField]
+    private float maxSteeringAngle = 38f;
+    [SerializeField]
+    private float motorTorque = 200f;
+    [SerializeField]
+    private float brakeTorque = 1000f;
+    [SerializeField]
+    private float velocity;
 
     [SerializeField]
     private WheelCollider frontLeftWheelCollider;
@@ -36,18 +62,16 @@ public class CarController : MonoBehaviour
     private Transform sensor;
     private List<Node> shortestPath;
     private Rigidbody rigidB;
-
-    [SerializeField]
-    private float velocity;
-    public float maxVelocity = 8.33f;
     private int currentIndex = 0;
     private float currentSteeringAngle;
+    private float _speedlimit = 4.33f;
 
     private void Start()
     {
-        rigidB = GetComponent<Rigidbody>();  
-        sensor = transform.Find("Distance Sensor");
-        shortestPath = Dijkstra.Instance.CalculateShortestPath(Graph.Instance, Source, Destination);
+        rigidB = GetComponent<Rigidbody>();
+        sensor = transform.Find(Strings.distanceSensor);
+        shortestPath = Dijkstra.Instance.CalculateShortestPath(Graph.Instance, source, destination);
+        speedlimit = maxVelocity;
     }
 
     private void FixedUpdate()
@@ -55,6 +79,11 @@ public class CarController : MonoBehaviour
         Steer();
         Accelerate();
         Brake();
+
+        if (velocity < speedlimit)
+        {
+            isDecelerating = false;
+        }
 
         UpdateWheelTransform(frontLeftWheelCollider, frontLeftTransform);
         UpdateWheelTransform(frontRightWheelCollider, frontRightTransform);
@@ -73,7 +102,7 @@ public class CarController : MonoBehaviour
 
     private void Brake()
     {
-        if (Input.GetAxis("Jump") == 1 || isBraking)
+        if (isBraking || isDecelerating || isParking)
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
@@ -94,7 +123,7 @@ public class CarController : MonoBehaviour
         velocity = rigidB.velocity.magnitude;
         rigidB.drag = 0.0f;
 
-        if (velocity > maxVelocity)
+        if (velocity > speedlimit || isBraking || isDecelerating || isParking)
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
@@ -117,7 +146,7 @@ public class CarController : MonoBehaviour
 
     private void Steer()
     {
-        if (shortestPath[currentIndex].transform.position != Destination.transform.position && Vector3.Distance(transform.position, shortestPath[currentIndex].transform.position) < 2f)
+        if (shortestPath[currentIndex].transform.position != destination.transform.position && Vector3.Distance(transform.position, shortestPath[currentIndex].transform.position) < 2f)
         {
             currentIndex++;
         }

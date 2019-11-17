@@ -3,28 +3,62 @@
 public class DistanceSensor : MonoBehaviour
 {
     public GameObject car;
-    private GameObject obstacle = null;
     public float length = 10f;
     public float carVelocity = 0f;
 
+    private GameObject otherCar = null;
+    private GameObject crossing = null;
+    private GameObject barrier = null;
+
     private void Start()
     {
-        transform.localScale = new Vector3(3, 2, 2);
+        transform.localScale = new Vector3(3, 2, 1.5f);
     }
 
-    void Update()
+    private void Update()
     {
-        if(obstacle != null)
+        bool carIsInBrakingDistance = false;
+        bool crossingIsInBrakingDistance = false;
+        bool barrierIsInBrakingDistance = false;
+
+        if (otherCar != null)
         {
-            if (car.GetComponent<Rigidbody>().velocity.magnitude > obstacle.GetComponent<Rigidbody>().velocity.magnitude)
+            if (car.GetComponent<Rigidbody>().velocity.magnitude > otherCar.GetComponent<Rigidbody>().velocity.magnitude)
             {
-                car.GetComponent<CarController>().isBraking = true;              
+                carIsInBrakingDistance = true;
             }
             else
             {
-                car.GetComponent<CarController>().isBraking = false;          
+                carIsInBrakingDistance = false;
             }
-            car.GetComponent<CarController>().maxVelocity = obstacle.GetComponent<CarController>().maxVelocity;
+        }
+
+        if (crossing != null)
+        {
+            if (crossing.GetComponent<PedestrianCrossingController>().pedestrianCounter > 0)
+            {
+                crossingIsInBrakingDistance = true;
+            }
+            else
+            {
+                crossingIsInBrakingDistance = false;
+            }
+        }
+
+        if (barrier != null)
+        {
+            barrierIsInBrakingDistance = true;
+        }
+
+        CarController carController = car.GetComponent<CarController>();
+
+        if (carIsInBrakingDistance || crossingIsInBrakingDistance || barrierIsInBrakingDistance)
+        {
+            carController.isBraking = true;
+        }
+        else
+        {
+            carController.isBraking = false;
         }
 
         CalculateSensorLength();
@@ -36,23 +70,47 @@ public class DistanceSensor : MonoBehaviour
 
         float normalized = carVelocity / car.GetComponent<CarController>().maxVelocity;
 
-        transform.localScale = new Vector3(3, 2, length * normalized + 2f);
+        transform.localScale = new Vector3(3, 2, length * normalized + 1.5f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Car") { 
-            obstacle = other.gameObject;
+        switch (other.gameObject.tag)
+        {
+            case Strings.car:
+                otherCar = other.gameObject;
+                break;
+            case Strings.pedestrianCrossing:
+                crossing = other.gameObject;
+                break;
+            case Strings.barrier:
+                barrier = other.gameObject;
+                break;
+            default:
+                break;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.tag == "Car")
+        CarController carController = car.GetComponent<CarController>();
+
+        switch (other.gameObject.tag)
         {
-            obstacle = null;
-            car.GetComponent<CarController>().isBraking = false;
-            car.GetComponent<CarController>().maxVelocity = 8.33f;
-        } 
+            case Strings.car:
+                otherCar = null;
+                carController.isBraking = false;
+                break;
+            case Strings.pedestrianCrossing:
+                crossing = null;
+                carController.isBraking = false;
+                break;
+            case Strings.barrier:
+                barrier = null;
+                carController.isBraking = false;
+                break;
+            default:
+                break;
+        }
     }
 }

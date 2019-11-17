@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -7,15 +6,19 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [SerializeField]
-    private List<Node> sources;
+    private List<Node> sourcesForCars;
     [SerializeField]
-    private List<Node> destinations;
+    private List<Node> destinationsForCars;
     [SerializeField]
     private GameObject carPrefab;
     [SerializeField]
     private GameObject pedestrianPrefab;
     [SerializeField]
-    private float spawnTime = 1f;
+    private List<Transform> sourcesForPedestrians;
+    [SerializeField]
+    private float spawnTimeForCars = 1f;
+    [SerializeField]
+    private float spawnTimeForPedestrians = 1f;
     [SerializeField]
     private int carCounter = 0;
     [SerializeField]
@@ -23,13 +26,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int maxCarsOnScreen = 10;
     [SerializeField]
-    private List<Transform> pedestrianSources;
-    [SerializeField]
     private int maxPedestriansOnScreen = 10;
-
-    private float currentSpawnTime = 0f;
-    private float currentPedestrianSpawnTime = 0f;
-    private Object previousSource;
+    private float currentSpawnTimeForCars = 0f;
+    private float currentSpawnTimeForPedestrians = 0f;
 
     private void Awake()
     {
@@ -45,19 +44,19 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        currentSpawnTime += Time.deltaTime;
-        currentPedestrianSpawnTime += Time.deltaTime;
+        currentSpawnTimeForCars += Time.deltaTime;
+        currentSpawnTimeForPedestrians += Time.deltaTime;
 
-        if (currentSpawnTime > spawnTime && carCounter < maxCarsOnScreen)
+        if (currentSpawnTimeForCars > spawnTimeForCars && carCounter < maxCarsOnScreen)
         {
             SpawnCar();
-            currentSpawnTime = 0f;
+            currentSpawnTimeForCars = 0f;
         }
 
-        if (currentPedestrianSpawnTime > spawnTime && pedestrianCounter < maxPedestriansOnScreen)
+        if (currentSpawnTimeForPedestrians > spawnTimeForPedestrians && pedestrianCounter < maxPedestriansOnScreen)
         {
             SpawnPedestrian();
-            currentPedestrianSpawnTime = 0f;
+            currentSpawnTimeForPedestrians = 0f;
         }
     }
 
@@ -65,32 +64,37 @@ public class GameManager : MonoBehaviour
     {
         carPrefab.SetActive(false);
 
-        Node randomSource = sources[Random.Range(0, sources.Count)];
-        Node randomDestination = destinations[Random.Range(0, destinations.Count)];
+        Node randomSource = sourcesForCars[Random.Range(0, sourcesForCars.Count)];
+        Node randomDestination = destinationsForCars[Random.Range(0, destinationsForCars.Count)];
 
-        if (randomSource.Equals(previousSource))
+        while (randomSource.GetComponent<Source>().busy)
         {
-            randomSource = sources[Random.Range(0, sources.Count - 1)];
+            randomSource = sourcesForCars[Random.Range(0, sourcesForCars.Count)];
+        }
+
+        if (randomDestination.gameObject.tag == Strings.destinationForParking)
+        {
+            destinationsForCars.Remove(randomDestination);
         }
 
         GameObject car = Instantiate(carPrefab, randomSource.transform.position, Quaternion.identity);
         CarController carController = car.GetComponent<CarController>();
 
-        carController.Source = randomSource;
-        carController.Destination = randomDestination;
+        carController.source = randomSource;
+        carController.destination = randomDestination;
         carController.OnDestroy.AddListener(CarDestroyed);
 
         switch (randomSource.gameObject.tag)
         {
-            case "Source South":
+            case Strings.sourceSouth:
                 break;
-            case "Source West":
+            case Strings.sourceWest:
                 car.transform.Rotate(0f, 90f, 0f);
                 break;
-            case "Source East":
+            case Strings.sourceEast:
                 car.transform.Rotate(0f, -90f, 0f);
                 break;
-            case "Source North":
+            case Strings.sourceNorth:
                 car.transform.Rotate(0f, 180f, 0f);
                 break;
             default:
@@ -98,7 +102,6 @@ public class GameManager : MonoBehaviour
         }
 
         carCounter++;
-        previousSource = randomSource;
         car.SetActive(true);
     }
 
@@ -106,21 +109,26 @@ public class GameManager : MonoBehaviour
     {
         pedestrianPrefab.SetActive(false);
 
-        Transform randomSource = pedestrianSources[Random.Range(0, pedestrianSources.Count)];
+        Transform randomSource = sourcesForPedestrians[Random.Range(0, sourcesForPedestrians.Count)];
+
+        while (randomSource.GetComponent<SourceForPedestrians>().busy)
+        {
+            randomSource = sourcesForPedestrians[Random.Range(0, sourcesForPedestrians.Count)];
+        }
 
         GameObject pedestrian = Instantiate(pedestrianPrefab, randomSource.position, Quaternion.identity);
 
         PedestrianController pedestrianController = pedestrian.GetComponent<PedestrianController>();
         pedestrianController.OnDestroy.AddListener(PedestrianDestroyed);
 
-        pedestrian.transform.position = new Vector3(randomSource.transform.position.x, 1.1f, randomSource.transform.position.z);
+        pedestrian.transform.position = new Vector3(randomSource.transform.position.x, 0.1f, randomSource.transform.position.z);
 
         switch (randomSource.gameObject.tag)
-        {          
-            case "Source West":
+        {
+            case Strings.sourceWest:
                 pedestrian.transform.Rotate(0f, 90f, 0f);
                 break;
-            case "Source East":
+            case Strings.sourceEast:
                 pedestrian.transform.Rotate(0f, -90f, 0f);
                 break;
             default:

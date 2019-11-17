@@ -62,7 +62,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5523662134226880303}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6, y: 0, z: 1.1000061}
+  m_LocalPosition: {x: -6.75, y: 0, z: 1.1000061}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9080899798328078437}
@@ -241,9 +241,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5523662135157870285}
   - component: {fileID: 6948301520635360905}
+  - component: {fileID: 5545761546959146796}
   m_Layer: 0
   m_Name: Pedestrian Crossing
-  m_TagString: Untagged
+  m_TagString: Pedestrian Crossing
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -277,6 +278,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 2, z: 4}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5545761546959146796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5523662134604780271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e5f9ddbce2b7cd4a9f1ce03311deef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pedestrianCounter: 0
+  carCounter: 0
 --- !u!1 &5523662135765791046
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,7 +504,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5523662136039475965}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6, y: 0, z: -1.1000061}
+  m_LocalPosition: {x: -6.75, y: 0, z: -1.1000061}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9080899798328078437}
@@ -582,7 +597,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5523662136162405074}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 0, z: -1.1000061}
+  m_LocalPosition: {x: 6.75, y: 0, z: -1.1000061}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9080899798328078437}
@@ -686,7 +701,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5523662136200895512}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6, y: 0, z: 1.1000061}
+  m_LocalPosition: {x: 6.75, y: 0, z: 1.1000061}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9080899798328078437}

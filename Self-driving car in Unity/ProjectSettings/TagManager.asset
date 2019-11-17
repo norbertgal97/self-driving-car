@@ -10,6 +10,10 @@ TagManager:
   - Source North
   - Car
   - Pedestrian
+  - Pedestrian Crossing
+  - Distance Sensor
+  - Barrier
+  - Destination For Parking
   layers:
   - Default
   - TransparentFX

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Dijkstra : MonoBehaviour
@@ -27,13 +26,13 @@ public class Dijkstra : MonoBehaviour
         };
 
         graph.Reset();
-        source.DistanceFromSource = 0;
+        source.distanceFromSource = 0;
 
         while (unvisitedNodes.Count > 0)
         {
             Node currentNode = GetLowestDistanceNode(unvisitedNodes);
 
-            foreach (Node neighbour in currentNode.Neighbours)
+            foreach (Node neighbour in currentNode.neighbours)
             {
                 float edgeWeight = currentNode.GetWeightOf(neighbour.transform);
 
@@ -48,7 +47,7 @@ public class Dijkstra : MonoBehaviour
             visitedNodes.Add(currentNode);
         }
 
-        List<Node> path = new List<Node>(destination.ShortestPath)
+        List<Node> path = new List<Node>(destination.shortestPath)
         {
             destination
         };
@@ -58,16 +57,16 @@ public class Dijkstra : MonoBehaviour
 
     private void CalculateMinimumDistance(Node neighbour, float edgeWeight, Node currentNode)
     {
-        float sourceDistance = currentNode.DistanceFromSource;
+        float sourceDistance = currentNode.distanceFromSource;
 
-        if (sourceDistance + edgeWeight < neighbour.DistanceFromSource)
+        if (sourceDistance + edgeWeight < neighbour.distanceFromSource)
         {
-            neighbour.DistanceFromSource = sourceDistance + edgeWeight;
-            List<Node> shortestPath = new List<Node>(currentNode.ShortestPath)
+            neighbour.distanceFromSource = sourceDistance + edgeWeight;
+            List<Node> shortestPath = new List<Node>(currentNode.shortestPath)
             {
                 currentNode
             };
-            neighbour.ShortestPath = shortestPath;
+            neighbour.shortestPath = shortestPath;
         }
     }
 
@@ -78,7 +77,7 @@ public class Dijkstra : MonoBehaviour
 
         foreach (Node node in unsettledNodes)
         {
-            float nodeDistanceFromSource = node.DistanceFromSource;
+            float nodeDistanceFromSource = node.distanceFromSource;
             if (nodeDistanceFromSource < lowestDistance)
             {
                 lowestDistance = nodeDistanceFromSource;

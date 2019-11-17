@@ -1,17 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Node : MonoBehaviour
 {
     public static int noteID = 0;
-    public List<Node> Neighbours { get { return _neighbours; } }
-    public List<Node> ShortestPath { get; set; } = new List<Node>();
-    public float DistanceFromSource { get; set; } = float.MaxValue;
-    public int ID { get; set; } = 0;
-
-    [SerializeField]
-    private List<Node> _neighbours = new List<Node>();
+    public int ID = 0;
+    public List<Node> shortestPath = new List<Node>();
+    public float distanceFromSource = float.MaxValue;
+    public List<Node> neighbours = new List<Node>();
 
     private void Awake()
     {
@@ -26,8 +22,8 @@ public class Node : MonoBehaviour
 
     public void Reset()
     {
-        ShortestPath.Clear();
-        DistanceFromSource = float.MaxValue;
+        shortestPath.Clear();
+        distanceFromSource = float.MaxValue;
     }
 
     public override bool Equals(object other)
