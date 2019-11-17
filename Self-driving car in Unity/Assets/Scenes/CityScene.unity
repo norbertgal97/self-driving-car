@@ -13105,6 +13105,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 748195403}
     m_Modifications:
+    - target: {fileID: 6796688809159722351, guid: b936541b366610a49a7fda1fea030415,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796688809159722351, guid: b936541b366610a49a7fda1fea030415,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796688809159722351, guid: b936541b366610a49a7fda1fea030415,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796688809159722351, guid: b936541b366610a49a7fda1fea030415,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
     - target: {fileID: 5523662134604780271, guid: b936541b366610a49a7fda1fea030415,
         type: 3}
       propertyPath: m_Name
@@ -13164,26 +13184,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6796688809159722351, guid: b936541b366610a49a7fda1fea030415,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6796688809159722351, guid: b936541b366610a49a7fda1fea030415,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 6796688809159722351, guid: b936541b366610a49a7fda1fea030415,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 170
-      objectReference: {fileID: 0}
-    - target: {fileID: 6796688809159722351, guid: b936541b366610a49a7fda1fea030415,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b936541b366610a49a7fda1fea030415, type: 3}
@@ -37315,11 +37315,11 @@ MonoBehaviour:
   - {fileID: 980057523}
   - {fileID: 704651522}
   - {fileID: 932324545}
-  spawnTimeForCars: 2
+  spawnTimeForCars: 0.5
   spawnTimeForPedestrians: 1
   carCounter: 0
   pedestrianCounter: 0
-  maxCarsOnScreen: 50
+  maxCarsOnScreen: 200
   maxPedestriansOnScreen: 2
 --- !u!4 &1530260662
 Transform:
@@ -43781,7 +43781,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803416142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.01, z: 0}
+  m_LocalPosition: {x: 0, y: -0.08, z: 0}
   m_LocalScale: {x: 500, y: 1, z: 500}
   m_Children: []
   m_Father: {fileID: 254028409}

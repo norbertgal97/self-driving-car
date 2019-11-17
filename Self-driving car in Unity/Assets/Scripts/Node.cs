@@ -1,18 +1,21 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 
 public class Node : MonoBehaviour
 {
     public static int noteID = 0;
-    public int ID = 0;
+    public int ID;
     public List<Node> shortestPath = new List<Node>();
     public float distanceFromSource = float.MaxValue;
     public List<Node> neighbours = new List<Node>();
 
+    public override bool Equals(object obj) => obj is Node node && ID == node.ID;
+    public override int GetHashCode() => ID;
+
     private void Awake()
     {
-        ID = noteID;
-        noteID++;
+        ID = Interlocked.Increment(ref noteID);
     }
 
     public float GetWeightOf(Transform neighbour)
@@ -26,17 +29,4 @@ public class Node : MonoBehaviour
         distanceFromSource = float.MaxValue;
     }
 
-    public override bool Equals(object other)
-    {
-        Node node = other as Node;
-
-        if (node == null)
-        {
-            return false;
-        }
-        else
-        {
-            return ID == node.ID;
-        }
-    }
 }

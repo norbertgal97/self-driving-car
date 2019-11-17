@@ -10,4 +10,7 @@
     public const string sourceWest = "Source West";
     public const string sourceEast = "Source East";
     public const string sourceNorth = "Source North";
+    public const string emissionColorString = "_EmissionColor";
+    public const string junctionInTag = "JunctionIn";
+    public const string junctionOutTag = "JunctionOut";
 }

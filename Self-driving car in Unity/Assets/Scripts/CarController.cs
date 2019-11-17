@@ -1,16 +1,25 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CarController : MonoBehaviour
 {
-    public float speedlimit
-    {
-        get
-        {
-            return _speedlimit;
-        }
+    public static int noteID = 0;
+    public int ID;
 
+    public override bool Equals(object obj) => obj is CarController controller && ID == controller.ID;
+    public override int GetHashCode() => ID;
+
+    private void Awake()
+    {
+        ID = Interlocked.Increment(ref noteID);
+    }
+
+
+    public float speedLimit
+    {
+        get => _speedlimit;
         set
         {
             if (value > maxVelocity)
@@ -31,6 +40,7 @@ public class CarController : MonoBehaviour
     public bool isDecelerating = false;
     public bool isParking = false;
     public bool isBraking = false;
+    public bool forbiddenTraffic = false;
 
     [SerializeField]
     private float maxSteeringAngle = 38f;
@@ -71,7 +81,7 @@ public class CarController : MonoBehaviour
         rigidB = GetComponent<Rigidbody>();
         sensor = transform.Find(Strings.distanceSensor);
         shortestPath = Dijkstra.Instance.CalculateShortestPath(Graph.Instance, source, destination);
-        speedlimit = maxVelocity;
+        speedLimit = maxVelocity;
     }
 
     private void FixedUpdate()
@@ -80,7 +90,7 @@ public class CarController : MonoBehaviour
         Accelerate();
         Brake();
 
-        if (velocity < speedlimit)
+        if (velocity < speedLimit)
         {
             isDecelerating = false;
         }
@@ -102,7 +112,7 @@ public class CarController : MonoBehaviour
 
     private void Brake()
     {
-        if (isBraking || isDecelerating || isParking)
+        if (isBraking || isDecelerating || isParking || forbiddenTraffic)
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
@@ -123,7 +133,7 @@ public class CarController : MonoBehaviour
         velocity = rigidB.velocity.magnitude;
         rigidB.drag = 0.0f;
 
-        if (velocity > speedlimit || isBraking || isDecelerating || isParking)
+        if (velocity > speedLimit || isBraking || isDecelerating || isParking || forbiddenTraffic)
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
@@ -146,8 +156,23 @@ public class CarController : MonoBehaviour
 
     private void Steer()
     {
-        if (shortestPath[currentIndex].transform.position != destination.transform.position && Vector3.Distance(transform.position, shortestPath[currentIndex].transform.position) < 2f)
+        float distance = 3;
+        // float velocity = gameObject.GetComponent<Rigidbody>().velocity.magnitude;
+        // float deltaV = velocity - Junction.speedLimit;
+        // float brakeDeceleration = 4.7f;
+        // float deltaT = deltaV / brakeDeceleration;
+        // float distance = deltaV < 0 ? 3 : Junction.speedLimit * deltaT + (deltaT + deltaV) / 2;
+
+        // Debug.Log(distance);
+
+        Node currentNode = shortestPath[currentIndex];
+        if (currentIndex < shortestPath.Count - 1 && Vector3.Distance(transform.position, currentNode.transform.position) < distance)
         {
+            if (currentNode.gameObject.tag == Strings.junctionInTag)
+                currentNode.gameObject.GetComponentInParent<Junction>().Enter(this, (currentNode, shortestPath[currentIndex + 1]));
+            if (currentNode.gameObject.tag == Strings.junctionOutTag)
+                currentNode.gameObject.GetComponentInParent<Junction>().Exit(this, (shortestPath[currentIndex - 1], currentNode));
+
             currentIndex++;
         }
 

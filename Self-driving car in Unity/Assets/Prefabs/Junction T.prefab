@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 362324020324973250}
   m_Layer: 0
   m_Name: B
-  m_TagString: Untagged
+  m_TagString: JunctionOut
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -310,7 +310,7 @@ GameObject:
   - component: {fileID: 1871850372361104011}
   m_Layer: 0
   m_Name: F
-  m_TagString: Untagged
+  m_TagString: JunctionOut
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -900,7 +900,7 @@ GameObject:
   - component: {fileID: 7200319808435696032}
   m_Layer: 0
   m_Name: C
-  m_TagString: Untagged
+  m_TagString: JunctionIn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1011,7 +1011,7 @@ GameObject:
   - component: {fileID: 3774994737756850307}
   m_Layer: 0
   m_Name: A
-  m_TagString: Untagged
+  m_TagString: JunctionIn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1249,6 +1249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8078338290360480463}
+  - component: {fileID: 2177826354323262589}
   m_Layer: 0
   m_Name: Junction T
   m_TagString: Untagged
@@ -1272,6 +1273,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2177826354323262589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5645590385148306792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81535b93fdde19f4b95a4b548ac6824f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6231091019008418105
 GameObject:
   m_ObjectHideFlags: 0
@@ -1914,7 +1927,7 @@ GameObject:
   - component: {fileID: 2783742709993887944}
   m_Layer: 0
   m_Name: E
-  m_TagString: Untagged
+  m_TagString: JunctionIn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2025,7 +2038,7 @@ GameObject:
   - component: {fileID: 5445029789477198295}
   m_Layer: 0
   m_Name: D
-  m_TagString: Untagged
+  m_TagString: JunctionOut
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
