@@ -82,31 +82,31 @@
     <Compile Include="Assets\Scripts\Strings.cs" />
     <None Include="Assets\laxer tree pkg\README.txt" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>D:/dev/Unity/Szakdoga/Self-driving car in Unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>D:/dev/Unity/git/self-driving-car/Self-driving car in Unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>D:/dev/Unity/Szakdoga/Self-driving car in Unity/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>D:/dev/Unity/git/self-driving-car/Self-driving car in Unity/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/dev/Unity/Szakdoga/Self-driving car in Unity/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/dev/Unity/git/self-driving-car/Self-driving car in Unity/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/dev/Unity/Szakdoga/Self-driving car in Unity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>D:/dev/Unity/git/self-driving-car/Self-driving car in Unity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>D:/dev/Unity/Szakdoga/Self-driving car in Unity/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>D:/dev/Unity/git/self-driving-car/Self-driving car in Unity/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/dev/Unity/Szakdoga/Self-driving car in Unity/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>D:/dev/Unity/git/self-driving-car/Self-driving car in Unity/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/dev/Unity/Szakdoga/Self-driving car in Unity/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>D:/dev/Unity/git/self-driving-car/Self-driving car in Unity/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/dev/Unity/Szakdoga/Self-driving car in Unity/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/dev/Unity/git/self-driving-car/Self-driving car in Unity/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/dev/Unity/Szakdoga/Self-driving car in Unity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>D:/dev/Unity/git/self-driving-car/Self-driving car in Unity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.4f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
