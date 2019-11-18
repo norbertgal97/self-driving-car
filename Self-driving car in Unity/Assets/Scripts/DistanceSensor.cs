@@ -10,9 +10,14 @@ public class DistanceSensor : MonoBehaviour
     private GameObject crossing = null;
     private GameObject barrier = null;
 
+    private Rigidbody carRigidbody;
+    private CarController carController;
+
     private void Start()
     {
         transform.localScale = new Vector3(3, 2, 1.5f);
+        carRigidbody = car.GetComponent<Rigidbody>();
+        carController = car.GetComponent<CarController>();
     }
 
     private void Update()
@@ -23,7 +28,7 @@ public class DistanceSensor : MonoBehaviour
 
         if (otherCar != null)
         {
-            carIsInBrakingDistance = car.GetComponent<Rigidbody>().velocity.magnitude > otherCar.GetComponent<Rigidbody>().velocity.magnitude;
+            carIsInBrakingDistance = carRigidbody.velocity.magnitude > otherCar.GetComponent<Rigidbody>().velocity.magnitude;
         }
 
         if (crossing != null)
@@ -33,16 +38,16 @@ public class DistanceSensor : MonoBehaviour
 
         barrierIsInBrakingDistance = barrier != null;
 
-        car.GetComponent<CarController>().hasObstacle = carIsInBrakingDistance || crossingIsInBrakingDistance || barrierIsInBrakingDistance;
+        carController.hasObstacle = carIsInBrakingDistance || crossingIsInBrakingDistance || barrierIsInBrakingDistance;
 
         CalculateSensorLength();
     }
 
     private void CalculateSensorLength()
     {
-        carVelocity = car.GetComponent<Rigidbody>().velocity.magnitude;
+        carVelocity = carRigidbody.velocity.magnitude;
 
-        float normalized = carVelocity / car.GetComponent<CarController>().maxVelocity;
+        float normalized = carVelocity / carController.maxVelocity;
 
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, length * normalized + 1.5f);
     }
@@ -67,8 +72,6 @@ public class DistanceSensor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        CarController carController = car.GetComponent<CarController>();
-
         switch (other.gameObject.tag)
         {
             case Strings.car:

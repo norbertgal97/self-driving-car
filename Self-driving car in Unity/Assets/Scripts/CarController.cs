@@ -28,8 +28,6 @@ public class CarController : MonoBehaviour
     public Node destination = null;
     public Node source = null;
     [SerializeField]
-    private bool isBraking = false;
-    [SerializeField]
     private bool isInJunction = false;
     public bool isParking = false;
     public bool forbiddenTraffic = false;
@@ -98,10 +96,10 @@ public class CarController : MonoBehaviour
         transform.rotation = quat;
     }
 
-    bool canGo() => velocity > speedLimit || isBraking || isParking || forbiddenTraffic || hasObstacle;
+    bool cantGo() => velocity > speedLimit || isParking || forbiddenTraffic || hasObstacle;
     private void Brake()
     {
-        if (canGo())
+        if (cantGo())
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
@@ -122,7 +120,7 @@ public class CarController : MonoBehaviour
         velocity = rigidB.velocity.magnitude;
         rigidB.drag = 0.0f;
 
-        if (canGo())
+        if (cantGo())
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
