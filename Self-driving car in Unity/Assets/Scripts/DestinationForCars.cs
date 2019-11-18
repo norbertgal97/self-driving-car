@@ -6,7 +6,7 @@ public class DestinationForCars : MonoBehaviour
     {
         if (other.gameObject.tag == Strings.car)
         {
-            other.GetComponent<CarController>().Destroy();
+            other.gameObject.GetComponent<CarController>().Destroy();
         }
     }
 }

@@ -23,43 +23,17 @@ public class DistanceSensor : MonoBehaviour
 
         if (otherCar != null)
         {
-            if (car.GetComponent<Rigidbody>().velocity.magnitude > otherCar.GetComponent<Rigidbody>().velocity.magnitude)
-            {
-                carIsInBrakingDistance = true;
-            }
-            else
-            {
-                carIsInBrakingDistance = false;
-            }
+            carIsInBrakingDistance = car.GetComponent<Rigidbody>().velocity.magnitude > otherCar.GetComponent<Rigidbody>().velocity.magnitude;
         }
 
         if (crossing != null)
         {
-            if (crossing.GetComponent<PedestrianCrossingController>().pedestrianCounter > 0)
-            {
-                crossingIsInBrakingDistance = true;
-            }
-            else
-            {
-                crossingIsInBrakingDistance = false;
-            }
+            crossingIsInBrakingDistance = crossing.GetComponent<PedestrianCrossingController>().pedestrianCounter > 0;
         }
 
-        if (barrier != null)
-        {
-            barrierIsInBrakingDistance = true;
-        }
+        barrierIsInBrakingDistance = barrier != null;
 
-        CarController carController = car.GetComponent<CarController>();
-
-        if (carIsInBrakingDistance || crossingIsInBrakingDistance || barrierIsInBrakingDistance)
-        {
-            carController.isBraking = true;
-        }
-        else
-        {
-            carController.isBraking = false;
-        }
+        car.GetComponent<CarController>().hasObstacle = carIsInBrakingDistance || crossingIsInBrakingDistance || barrierIsInBrakingDistance;
 
         CalculateSensorLength();
     }
@@ -70,7 +44,7 @@ public class DistanceSensor : MonoBehaviour
 
         float normalized = carVelocity / car.GetComponent<CarController>().maxVelocity;
 
-        transform.localScale = new Vector3(3, 2, length * normalized + 1.5f);
+        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, length * normalized + 1.5f);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -99,15 +73,15 @@ public class DistanceSensor : MonoBehaviour
         {
             case Strings.car:
                 otherCar = null;
-                carController.isBraking = false;
+                carController.hasObstacle = false;
                 break;
             case Strings.pedestrianCrossing:
                 crossing = null;
-                carController.isBraking = false;
+                carController.hasObstacle = false;
                 break;
             case Strings.barrier:
                 barrier = null;
-                carController.isBraking = false;
+                carController.hasObstacle = false;
                 break;
             default:
                 break;

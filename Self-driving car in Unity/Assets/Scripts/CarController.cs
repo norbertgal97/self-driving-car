@@ -20,27 +20,20 @@ public class CarController : MonoBehaviour
     public float speedLimit
     {
         get => _speedlimit;
-        set
-        {
-            if (value > maxVelocity)
-            {
-                _speedlimit = maxVelocity;
-            }
-            else
-            {
-                _speedlimit = value;
-            }
-        }
+        set => _speedlimit = value < maxVelocity ? value : maxVelocity;
     }
 
     public float maxVelocity = 4.33f;
     public UnityEvent OnDestroy;
     public Node destination = null;
     public Node source = null;
-    public bool isDecelerating = false;
+    [SerializeField]
+    private bool isBraking = false;
+    [SerializeField]
+    private bool isInJunction = false;
     public bool isParking = false;
-    public bool isBraking = false;
     public bool forbiddenTraffic = false;
+    public bool hasObstacle = false;
 
     [SerializeField]
     private float maxSteeringAngle = 38f;
@@ -69,7 +62,7 @@ public class CarController : MonoBehaviour
     [SerializeField]
     private Transform rearRightTransform;
 
-    private Transform sensor;
+    public Transform sensor;
     private List<Node> shortestPath;
     private Rigidbody rigidB;
     private int currentIndex = 0;
@@ -90,11 +83,6 @@ public class CarController : MonoBehaviour
         Accelerate();
         Brake();
 
-        if (velocity < speedLimit)
-        {
-            isDecelerating = false;
-        }
-
         UpdateWheelTransform(frontLeftWheelCollider, frontLeftTransform);
         UpdateWheelTransform(frontRightWheelCollider, frontRightTransform);
         UpdateWheelTransform(rearLeftWheelCollider, rearLeftTransform);
@@ -110,9 +98,10 @@ public class CarController : MonoBehaviour
         transform.rotation = quat;
     }
 
+    bool canGo() => velocity > speedLimit || isBraking || isParking || forbiddenTraffic || hasObstacle;
     private void Brake()
     {
-        if (isBraking || isDecelerating || isParking || forbiddenTraffic)
+        if (canGo())
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
@@ -133,7 +122,7 @@ public class CarController : MonoBehaviour
         velocity = rigidB.velocity.magnitude;
         rigidB.drag = 0.0f;
 
-        if (velocity > speedLimit || isBraking || isDecelerating || isParking || forbiddenTraffic)
+        if (canGo())
         {
             frontLeftWheelCollider.motorTorque = 0;
             frontRightWheelCollider.motorTorque = 0;
@@ -154,26 +143,43 @@ public class CarController : MonoBehaviour
         }
     }
 
+    float SlowDownDistance(float to)
+    {
+        float velocity = rigidB.velocity.magnitude;
+        if (velocity < to)
+            return 0;
+
+        float deltaV = velocity - to;
+        const float brakeDeceleration = 4.8f;
+        float deltaT = deltaV / brakeDeceleration;
+        return to * deltaT + deltaT * deltaV / 2;
+    }
+
     private void Steer()
     {
-        float distance = 3;
-        // float velocity = gameObject.GetComponent<Rigidbody>().velocity.magnitude;
-        // float deltaV = velocity - Junction.speedLimit;
-        // float brakeDeceleration = 4.7f;
-        // float deltaT = deltaV / brakeDeceleration;
-        // float distance = deltaV < 0 ? 3 : Junction.speedLimit * deltaT + (deltaT + deltaV) / 2;
-
-        // Debug.Log(distance);
-
-        Node currentNode = shortestPath[currentIndex];
-        if (currentIndex < shortestPath.Count - 1 && Vector3.Distance(transform.position, currentNode.transform.position) < distance)
+        if (currentIndex < shortestPath.Count - 1)
         {
-            if (currentNode.gameObject.tag == Strings.junctionInTag)
-                currentNode.gameObject.GetComponentInParent<Junction>().Enter(this, (currentNode, shortestPath[currentIndex + 1]));
-            if (currentNode.gameObject.tag == Strings.junctionOutTag)
-                currentNode.gameObject.GetComponentInParent<Junction>().Exit(this, (shortestPath[currentIndex - 1], currentNode));
-
-            currentIndex++;
+            Node currentNode = shortestPath[currentIndex];
+            float distanceFromCurrentNode = Vector3.Distance(transform.position, currentNode.transform.position);
+            if (!isInJunction
+                && SlowDownDistance(Junction.speedLimit) > distanceFromCurrentNode
+                && currentNode.gameObject.tag == Strings.junctionInTag)
+            {
+                isInJunction = true;
+                speedLimit = Junction.speedLimit;
+            }
+            if (distanceFromCurrentNode < 3)
+            {
+                if (currentNode.gameObject.tag == Strings.junctionInTag)
+                    currentNode.gameObject.GetComponentInParent<Junction>().Enter(this, (currentNode, shortestPath[currentIndex + 1]));
+                if (currentNode.gameObject.tag == Strings.junctionOutTag)
+                {
+                    speedLimit = maxVelocity;
+                    isInJunction = false;
+                    currentNode.gameObject.GetComponentInParent<Junction>().Exit(this, (shortestPath[currentIndex - 1], currentNode));
+                }
+                currentIndex++;
+            }
         }
 
         Vector3 localVector = transform.InverseTransformPoint(shortestPath[currentIndex].transform.position);

@@ -1040,15 +1040,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ce301a9ed05b14bbeba0cc7d5dd650, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSteeringAngle: 38
-  motorTorque: 200
-  brakeTorque: 1000
-  isBraking: 0
+  ID: 0
+  maxVelocity: 14
   OnDestroy:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  destination: {fileID: 0}
+  source: {fileID: 0}
+  isDecelerating: 0
+  isParking: 0
+  isBraking: 0
+  forbiddenTraffic: 0
+  isInJunction: 0
+  maxSteeringAngle: 38
+  motorTorque: 200
+  brakeTorque: 1000
+  velocity: 0
   frontLeftWheelCollider: {fileID: 2116838704427480794}
   frontRightWheelCollider: {fileID: 2116838704298158088}
   rearLeftWheelCollider: {fileID: 2116838704513804816}
@@ -1057,8 +1066,6 @@ MonoBehaviour:
   frontRightTransform: {fileID: 2116838705761742189}
   rearLeftTransform: {fileID: 2116838704400196825}
   rearRightTransform: {fileID: 2116838704225056536}
-  velocity: 0
-  maxVelocity: 4.33
 --- !u!1 &2116838705056311111
 GameObject:
   m_ObjectHideFlags: 0

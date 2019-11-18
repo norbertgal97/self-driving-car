@@ -12,7 +12,6 @@ public class ParkingLotEntry : MonoBehaviour
             CarController carController = other.GetComponent<CarController>();
 
             carController.speedLimit = speedLimit;
-            carController.isDecelerating = true;
         }
     }
 }
